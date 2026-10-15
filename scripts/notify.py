@@ -21,6 +21,7 @@ import re
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
+from email.utils import formataddr
 
 CST = __import__("datetime").timezone(__import__("datetime").timedelta(hours=8))
 
@@ -219,7 +220,7 @@ def send_email(title, md):
 
     msg = MIMEMultipart("alternative")
     msg["Subject"] = Header(title, "utf-8")
-    msg["From"] = Header("%s <%s>" % (name, sender), "utf-8")
+    msg["From"] = formataddr((name, sender))
     msg["To"] = to
     msg.attach(MIMEText(md_to_text(md), "plain", "utf-8"))
     msg.attach(MIMEText(md_to_html(md), "html", "utf-8"))
